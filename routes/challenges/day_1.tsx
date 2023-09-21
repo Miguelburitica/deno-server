@@ -1,75 +1,47 @@
-import { Header } from "../../components/header.tsx";
-import { IS_BROWSER } from "$fresh/runtime.ts";
-
-function addCards (cardsArray: any[]) {
-  if (!IS_BROWSER) return
-  const cardsContainer = document.querySelector('.cards-container') as HTMLElement
-
-  cardsArray.forEach(card => {
-    const cardElement = document.createElement('div')
-    for (const cardClass of card.cardClassString.split(' ')) {
-      cardElement.classList.add(cardClass)
-    }
-    cardElement.innerHTML = `<h3>${card.title}</h3>`
-    cardElement.addEventListener('click', (e) => {
-      const currentCard = e.target as HTMLElement
-      if (currentCard.classList.contains('selected')) {
-        return
-      }
-      cardElement.classList.toggle('selected')
-      removeSelectedOtherCards(cardElement)
-    })
-    cardsContainer.appendChild(cardElement)
-  })
-  const cards = document.querySelectorAll('.card')
-  cards[0].classList.add('selected')
-}
-
-function removeSelectedOtherCards (currentCard: HTMLElement) {
-  if (!IS_BROWSER) return
-  const cards = document.querySelectorAll('.card')
-  cards.forEach(card => {
-    if (card !== currentCard) {
-      card.classList.remove('selected')
-    }
-  })
-}
+import { Header } from "../../components/Header.tsx";
+import SelecteableCards from "../../islands/Cards.tsx";
+import { signal } from "@preact/signals";
 
 export default function Day1() {
+  const cardStyles = 'bg-cover bg-center bg-no-repeat h-4/5 w-64 rounded-lg shadow-lg relative transition-all'
+  
   const cardsArray = [
     {
+      id: '0',
       title: 'Desierto de la Tatacoa',
       image: 'tatacoa',
-      cardClassString : 'bg-tatacoa card'
+      cardClassString : "bg-[url('/desierto_tatacoa.webp')] " + cardStyles 
     },
     {
+      id: '1',
       title: 'Pico Cristobal Cólon',
       image: 'colon',
-      cardClassString : 'bg-colon card'
+      cardClassString : "bg-[url('/pico_colon.webp')] " + cardStyles
     },
     {
       title: 'Sierra de la Macarena, Caño cristales',
       image: 'cristales',
-      cardClassString : 'bg-cristales card'
+      cardClassString : "bg-[url('/caño_cristales.webp')] " + cardStyles
     },
     {
+      id: '2',
       title: 'Piedra del Peñol',
       image: 'peñol',
-      cardClassString : 'bg-peñol card'
+      cardClassString : "bg-[url('/piedra_peñol.webp')] " + cardStyles
     },
     {
+      id: '3',
       title: 'Isla de San Andrés',
       image: 'isla',
-      cardClassString : 'bg-isla card'
+      cardClassString : "bg-[url('/san_andres_isla.webp')] " + cardStyles
     }
   ]
 
-  addCards(cardsArray)
-  
   return (
     <>
       <Header isChallengePage={true}/>
-      <div class="cards-container">
+      <div className={'max-w-screen-2xl mx-auto px-6'}>
+        <SelecteableCards cardsArray={cardsArray} selectedCardId={signal(cardsArray[0].id || '0')} />
       </div>
     </>
   )
