@@ -40,7 +40,7 @@ export default function Day1() {
   return (
     <>
       <Header isChallengePage={true}/>
-      <div className={'max-w-screen-2xl mx-auto px-6'}>
+      <div className={'max-w-screen-2xl h-screen overflow-x-hidden mx-auto px-6'}>
         <SelecteableCards cardsArray={cardsArray} selectedCardId={signal(cardsArray[0].id || '0')} />
       </div>
     </>

@@ -7,7 +7,7 @@ interface CardsProps {
 
 export default function SelecteableCards(props: CardsProps) {
   return (
-    <div className="flex h-screen w-full items-center justify-center gap-8 mx-auto transitions-animation cursor-pointer">
+    <div className="flex h-full w-full items-center justify-center gap-8 transitions-animation cursor-pointer">
       {
         props.cardsArray.map(card => {
           return (
